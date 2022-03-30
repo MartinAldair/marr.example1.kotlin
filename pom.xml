@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>marr.example1.kotlin</name>
 	<description>The backend module RESTful built with spring boot kotlin and swagger-ui</description>
+
 	<properties>
 		<java.version>11</java.version>
 		<kotlin.version>1.6.10</kotlin.version>
@@ -25,6 +26,15 @@
 		<username>admin</username>
 		<password></password>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>swagger1</id>
+			<name>swagger-snapshot</name>
+			<url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,12 +69,16 @@
 			</exclusions>
 		</dependency>
 
-		<!-- OpenAPI 3 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.6</version>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 
 	</dependencies>
