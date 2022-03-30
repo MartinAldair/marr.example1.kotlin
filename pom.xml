@@ -16,6 +16,14 @@
 	<properties>
 		<java.version>11</java.version>
 		<kotlin.version>1.6.10</kotlin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- Settings DB -->
+		<host>localhost</host>
+		<port>27017</port>
+		<database>testdb</database>
+		<username>admin</username>
+		<password></password>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -43,6 +51,17 @@
 			</exclusions>
 		</dependency>
 
+		<!-- MongoDB dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.6</version>
+		</dependency>
 
 	</dependencies>
 
