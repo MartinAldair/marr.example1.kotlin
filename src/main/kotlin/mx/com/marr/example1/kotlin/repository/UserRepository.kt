@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository
 interface UserRepository: MongoRepository<User, String> {
 
     @Query("{ 'email' : :#{#email} }")
-    fun findUserByEmail(@Param("email") email: String?): User?
+    fun findUserByEmail(@Param("email") email: String): User
 
     @Query(value = "{ 'email' : :#{#email}}", exists = true)
-    fun existsUserByEmail(@Param("email") email: String?): Boolean?
+    fun existsUserByEmail(@Param("email") email: String): Boolean
 
 }

@@ -1,31 +1,21 @@
 package io.swagger.server.api.authentication
 
 import io.swagger.server.models.AccessApiKeyResponse
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.CookieValue;
-
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
-import java.util.Map;
+import io.swagger.server.models.UserParams
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.enums.ParameterIn
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
+import javax.validation.Valid
+import javax.validation.constraints.*
 
 interface AuthenticationApi {
 
@@ -80,5 +70,36 @@ interface AuthenticationApi {
             schema = Schema()
         ) @RequestParam(value = "password", required = true) password: @Valid String?
     ): ResponseEntity<AccessApiKeyResponse?>?
+
+    @Operation(
+        summary = "Create an user to save into the system",
+        description = "To get a valid response for testing. try recaptcha with value charater, username with value charaters, email with value example@mail.com, password with value charaters. role with value ROLE_ADMIN | ROLE_USER",
+        tags = ["authentication"]
+    )
+    @ApiResponses(
+        value = [ApiResponse(responseCode = "200", description = "OK"), ApiResponse(
+            responseCode = "400",
+            description = "Bad Request"
+        ), ApiResponse(responseCode = "401", description = "Unauthorized"), ApiResponse(
+            responseCode = "403",
+            description = "Forbidden"
+        ), ApiResponse(responseCode = "404", description = "Not Found"), ApiResponse(
+            responseCode = "405",
+            description = "Method Not Allowed"
+        ), ApiResponse(responseCode = "500", description = "Internal Server Error")]
+    )
+    @RequestMapping(
+        value = ["/authentication/user/signup"],
+        consumes = ["application/json", "application/xml"],
+        method = [RequestMethod.POST]
+    )
+    fun signupUser(
+        @Parameter(
+            `in` = ParameterIn.DEFAULT,
+            description = "Created an user params definition",
+            required = true,
+            schema = Schema()
+        ) @RequestBody body: @Valid UserParams?
+    ): ResponseEntity<Void?>?
 
 }
