@@ -6,11 +6,11 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
 @Document(collection = "user") // Maps Entity class objects to JSON formatted Documents
-data class User (
+data class User(
     @Id
     var id: String? = ObjectId().toHexString(),
     var email: String,
     var password: String,
-    val createdAt: Date,
-    val lastChangedAt: Date
-)
+    var createdAt: Date,
+    val lastChangedAt: Date?
+) {}
