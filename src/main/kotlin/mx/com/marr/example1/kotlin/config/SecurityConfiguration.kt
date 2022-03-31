@@ -4,12 +4,13 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+// https://waynestalk.com/en/spring-security-jwt-jpa-springdoc-explained-en/
 
 @Configuration
 @EnableWebSecurity
@@ -19,24 +20,40 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
+    override fun configure(web: WebSecurity) {
+        // Tell Spring to ignore securing the handshake endpoint. This allows the handshake to take place unauthenticated
+        web.ignoring().antMatchers(
+            "/",
+            "/csrf",
+            "/swagger/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/swagger-resources/**",
+            "/configuration/**",
+            "/v3/api-docs/**")
+    }
+
     override fun configure(http: HttpSecurity) {
+
+        // Enable CORS and disable CSRF
         http
-            .csrf().disable()
+            .cors()
+            .and()
+            .csrf().disable();
 
-//            .addFilterBefore(JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
-//
-//            .exceptionHandling()
-//            .authenticationEntryPoint(JwtAuthenticationEntryPoint())
-//            .accessDeniedHandler(JwtAccessDeniedHandler())
-
-//            .and()
+        // Based on token, so no session is required
+        http
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and();
 
-            .and()
+        // Set permissions on endpoints
+        http
             .authorizeRequests()
-            .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-            .antMatchers("/login").permitAll()
+            // Our public endpoints
+            .antMatchers("/authentication/**").permitAll()
+            .antMatchers("/").permitAll()
             .anyRequest().authenticated()
     }
 
