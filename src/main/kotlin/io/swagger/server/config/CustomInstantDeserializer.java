@@ -1,4 +1,4 @@
-package io.swagger.config;
+package io.swagger.server.config;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonTokenId;

@@ -1,4 +1,4 @@
-package io.swagger.config
+package io.swagger.server.config
 
 import org.springdoc.core.Constants.SWAGGER_UI_PATH
 import org.springframework.beans.factory.annotation.Value

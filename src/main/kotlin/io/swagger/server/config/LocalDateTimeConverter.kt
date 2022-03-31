@@ -1,4 +1,4 @@
-package io.swagger.config
+package io.swagger.server.config
 
 import org.springframework.core.convert.converter.Converter;
 import org.threeten.bp.LocalDateTime;

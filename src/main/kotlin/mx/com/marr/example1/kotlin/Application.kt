@@ -1,7 +1,7 @@
 package mx.com.marr.example1.kotlin
 
-import io.swagger.config.LocalDateConverter
-import io.swagger.config.LocalDateTimeConverter
+import io.swagger.server.config.LocalDateConverter
+import io.swagger.server.config.LocalDateTimeConverter
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.ExitCodeGenerator
 import org.springframework.boot.SpringApplication
@@ -12,7 +12,7 @@ import org.springframework.format.FormatterRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
-@ComponentScan(basePackages = ["mx.com.marr.example1.kotlin", "io.swagger", "io.swagger.config"])
+@ComponentScan(basePackages = ["mx.com.marr.example1.kotlin", "io.swagger.server", "io.swagger.server.config"])
 class Application : CommandLineRunner {
 	override fun run(vararg arg0: String?) {
 		if (arg0.size > 0 && arg0[0] == "exitcode") {
