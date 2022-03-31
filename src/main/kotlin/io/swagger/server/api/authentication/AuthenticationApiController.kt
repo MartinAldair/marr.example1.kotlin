@@ -85,15 +85,21 @@ class AuthenticationApiController : AuthenticationApi {
         ) @RequestBody body: @Valid UserParams?
     ): ResponseEntity<Void?>? {
         val accept = request!!.getHeader("Accept")
-        return if (accept != null) {
-            try {
-               var existsUserByEmail = userServiceImpl!!.existsUserByEmail(body!!.email);
-                log.info(""+ existsUserByEmail);
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
-            log.error("Couldn't serialize response for content type application/xml | application/json", e);
-            return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (accept != null) {
+        try {
+                var existsUserByEmail = userServiceImpl!!.existsUserByEmail(body!!.email);
+                if(!existsUserByEmail){
+                    log.info(""+ existsUserByEmail);
+                    return ResponseEntity(HttpStatus.NOT_FOUND)
+                }else{
+                    log.info(""+ existsUserByEmail);
+                    return ResponseEntity(HttpStatus.OK)
+                }
+            } catch (e: Exception) {
+                log.error("Couldn't serialize response for content type application/xml | application/json", e);
+                return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-        } else ResponseEntity(HttpStatus.OK)
+        return ResponseEntity(HttpStatus.OK)
     }
 }
