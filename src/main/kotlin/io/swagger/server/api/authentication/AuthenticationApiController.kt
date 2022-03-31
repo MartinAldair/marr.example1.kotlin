@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
-
 @RestController
 @Tag(name = "authentication", description = "Operations about authentication")
 class AuthenticationApiController : AuthenticationApi {
@@ -26,45 +25,45 @@ class AuthenticationApiController : AuthenticationApi {
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Autowired
-    private val objectMapper: ObjectMapper? = null
+    val objectMapper: ObjectMapper? = null
 
     @Autowired
-    private val request: HttpServletRequest? = null
+    val request: HttpServletRequest? = null
 
     override fun loginUser(
-        @NotNull @Parameter(
+        @Parameter(
             `in` = ParameterIn.QUERY,
             description = "The recaptcha for login",
             required = true,
             schema = Schema()
-        ) @RequestParam(value = "recaptcha", required = true) recaptcha: @Valid String?,
-        @NotNull @Parameter(
+        ) @RequestParam(value = "recaptcha", required = true) recaptcha: @NotNull @Valid String?,
+        @Parameter(
             `in` = ParameterIn.QUERY,
             description = "The email for login",
             required = true,
             schema = Schema()
-        ) @RequestParam(value = "email", required = true) email: @Valid String?,
-        @NotNull @Parameter(
+        ) @RequestParam(value = "email", required = true) email: @NotNull @Valid String?,
+        @Parameter(
             `in` = ParameterIn.QUERY,
             description = "The password for login",
             required = true,
             schema = Schema()
-        ) @RequestParam(value = "password", required = true) password: @Valid String?
+        ) @RequestParam(value = "password", required = true) password: @NotNull @Valid String?
     ): ResponseEntity<AccessApiKeyResponse?>? {
         val accept = request!!.getHeader("Accept")
-        return if (accept != null && accept.contains("application/json")) {
+        return if (accept != null || accept!!.contains("application/xml") || accept!!.contains("application/json")) {
             try {
 
-
-
+                var accessApiKeyResponse = AccessApiKeyResponse("key");
+                val json = objectMapper!!.writeValueAsString(accessApiKeyResponse);
                 ResponseEntity(
                     objectMapper!!.readValue(
-                        "{\n  \"apiKey\" : \"apiKey\"\n}",
+                        json,
                         AccessApiKeyResponse::class.java
                     ), HttpStatus.OK
                 )
             } catch (e: IOException) {
-                log.error("Couldn't serialize response for content type application/json", e)
+                log.error("Couldn't serialize response for content type application/xml | application/json", e);
                 ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
             }
         } else ResponseEntity(HttpStatus.OK)
