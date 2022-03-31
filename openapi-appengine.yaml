@@ -1,0 +1,101 @@
+openapi: 3.0.1
+info:
+  title: marr.example1.kotlin
+  description: The backend module RESTful built with spring boot kotlin and springdoc-openapi
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: apiteam
+    url: http://www.example.com
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1-SNAPSHOT
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080
+    description: local
+  - url: https://example.org
+    description: test
+tags:
+  - name: authentication
+    description: Operations about authentication
+    externalDocs:
+      description: Find out more about our app
+      url: http://swagger.io
+paths:
+  /authentication/user/login:
+    get:
+      tags:
+        - authentication
+      summary: Logs user into the system
+      description: To get a valid response for testing.
+        try recaptcha with value charater,
+        email with value example@mail.com,
+        password with value string.
+      operationId: loginUser
+      parameters:
+        - name: recaptcha
+          in: query
+          description: The recaptcha for login
+          required: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: The email for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccessApiKeyResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessApiKeyResponse'
+        400:
+          description: Bad Request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+        405:
+          description: Method Not Allowed
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+components:
+  schemas:
+    AccessApiKeyResponse:
+      required:
+        - apiKey
+      type: object
+      properties:
+        apiKey:
+          type: string
+      xml:
+        name: AccessApiKeyResponse
+  securitySchemes:
+    api_key:        # arbitrary name for the security scheme
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: api_key  # name of the header, query parameter or
