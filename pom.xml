@@ -88,6 +88,12 @@
 			<version>2.6.4</version>
 		</dependency>
 
+		<!-- MongoDB dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
