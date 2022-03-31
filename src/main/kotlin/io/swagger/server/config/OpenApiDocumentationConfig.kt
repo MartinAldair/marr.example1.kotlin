@@ -8,10 +8,12 @@ import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import io.swagger.v3.oas.models.security.SecurityScheme
 import io.swagger.v3.oas.models.servers.Server
+import org.springdoc.core.GroupedOpenApi
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.*
+
 
 @Configuration
 class OpenApiDocumentationConfig {
@@ -103,4 +105,14 @@ class OpenApiDocumentationConfig {
             .url(documentationUrl)
     }
 
+    @Bean
+    fun apiAuthenticationGroup(): GroupedOpenApi? {
+        val paths = arrayOf("/authentication/**")
+        val packagesToScan = arrayOf("io.swagger.server.api.authentication")
+        return GroupedOpenApi.builder()
+            .group("authentication")
+            .packagesToScan(*packagesToScan)
+            .pathsToMatch(*paths)
+            .build()
+    }
 }
