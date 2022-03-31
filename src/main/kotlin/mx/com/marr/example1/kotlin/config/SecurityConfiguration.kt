@@ -42,6 +42,10 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .and()
             .csrf().disable();
 
+        http
+            .formLogin().disable()
+            .httpBasic().disable();
+
         // Based on token, so no session is required
         http
             .sessionManagement()
