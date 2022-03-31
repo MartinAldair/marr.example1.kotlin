@@ -4,7 +4,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-class LocalDateTimeConverter : Converter<String, LocalDateTime> {
+class LocalDateTimeConverter(s: String) : Converter<String, LocalDateTime> {
 
     private var formatter: DateTimeFormatter? = null
 
