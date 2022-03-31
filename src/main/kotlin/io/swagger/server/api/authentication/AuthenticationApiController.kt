@@ -34,8 +34,8 @@ class AuthenticationApiController : AuthenticationApi {
     @Autowired
     val request: HttpServletRequest? = null
 
-//    @Autowired
-//    var userServiceImpl: UserServiceImpl? = null
+    @Autowired
+    var userServiceImpl: UserServiceImpl? = null
 
     override fun loginUser(
         @Parameter(
@@ -87,9 +87,8 @@ class AuthenticationApiController : AuthenticationApi {
         val accept = request!!.getHeader("Accept")
         return if (accept != null) {
             try {
-
-//               this.userServiceImpl!!.existsUserByEmail(body!!.email);
-
+               var existsUserByEmail = userServiceImpl!!.existsUserByEmail(body!!.email);
+                log.info(""+ existsUserByEmail);
             ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
             log.error("Couldn't serialize response for content type application/xml | application/json", e);
